@@ -305,7 +305,11 @@ struct Lexer {
         size_t L=line, C=col;
         string s;
         s.push_back(get()); // '#'
-        while(!eof() && peek()!='\n'){ s.push_back(get()); }
+        while(!eof()){
+            char p = peek();
+            if (p=='\n' || p=='\r') break;
+            s.push_back(get());
+        }
         return make(TokType::PREPROCESSOR, s, L, C);
     }
 
